@@ -5,6 +5,7 @@ interface New{
     void deposit(int depo);
     void transfer(Customer ob[],int index,int index1,int amount);
     void History(Customer ob[],int index);
+    void print(Customer ob[],int index);
     void show_balance();
 }
 
@@ -66,6 +67,33 @@ class Customer implements New {
         System.out.println("Your account Balance is : Rs."+this.balance);
         System.out.println("------------------------------------\n");
     }
+    public void print(Customer ob[],int x)
+    {
+         try {
+                FileWriter myWriter = new FileWriter(ob[x].name+".txt");
+                myWriter.write("------------------------------------------------\n");
+                myWriter.write("     Account Details \n");
+                
+                
+                myWriter.write("Account Holder Name :\t\t"+ob[x].name+"\n");
+                myWriter.write("Account Balance :\t\t\t"+ob[x].balance+"\n\n");
+                 myWriter.write("Transaction History \n\n");
+                 
+                 
+                 for(int i=0;i<this.last;i++){
+                     myWriter.write((i+1)+"\t Rs."+ob[x].transactionHistory[i]+"\n");
+                 }
+                
+                myWriter.write("------------------------------------------------\n");
+                                
+                myWriter.close();
+                            // System.out.println("Successfully wrote to the file.");
+            } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+            }                       
+    }
+    
 }
 
 class Admin extends Customer{
@@ -185,8 +213,9 @@ class Main{
                         System.out.println("3. Deposit Money");
                         System.out.println("4. Transfer Money");
                         System.out.println("5. View History of Transactions");
-                        System.out.println("6. Logout");
-                        System.out.println("7. Exit");
+                        System.out.println("6. Print the History");
+                        System.out.println("7. Logout");
+                        System.out.println("8. Exit");
                         System.out.println("----------------------------------------------------");
                         System.out.print("Enter choice : ");
                         
@@ -228,10 +257,14 @@ class Main{
                         }
                         else if(s==5)
                             ob[index].History(ob,index);
-                        else if(s==6){
+                        else if(s==6)
+                        {
+                            ob[index].print(ob,index);
+                        }
+                        else if(s==7){
                             break inner;
                         }
-                        else if(s==7)
+                        else if(s==8)
                             break outer;
                         else
                         System.out.println("\nPlease Enter Correct Choice!\n");
